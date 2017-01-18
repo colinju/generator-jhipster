@@ -165,8 +165,8 @@ function writeFiles() {
 			this.template(TEST_DIR + 'resources/contracts/_EntityContract.groovy',
                     TEST_DIR + 'resources/contracts/' + this.entityClass + '.groovy', this, {});
 					
-			this.template(TEST_DIR + '_entityBase.java',
-                    TEST_DIR  + this.entityClass + 'Base.java', this, {});
+			this.template(SERVER_TEST_SRC_DIR + 'package/_entityBase.java',
+                    SERVER_TEST_SRC_DIR + this.packageFolder +this.entityClass + 'Base.java', this, {});
 
             if (this.testFrameworks.indexOf('gatling') !== -1) {
                 this.template(TEST_DIR + 'gatling/simulations/_EntityGatlingTest.scala',
