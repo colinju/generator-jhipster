@@ -163,7 +163,7 @@ function writeFiles() {
                     SERVER_TEST_SRC_DIR + this.packageFolder + '/web/rest/' + this.entityClass + 'ResourceIntTest.java', this, {});
 					
 			this.template(TEST_DIR + 'resources/contracts/_EntityContract.groovy',
-                    TEST_DIR + 'resources/contracts/' + this.entityClass + '.groovy', this, {});
+                    TEST_DIR + 'resources/contracts/'+ this.name +'/' + this.entityClass + '.groovy', this, {});
 					
 			this.template(SERVER_TEST_SRC_DIR + 'package/_entityBase.java',
                     SERVER_TEST_SRC_DIR + this.packageFolder +'/'+this.entityClass + 'Base.java', this, {});
