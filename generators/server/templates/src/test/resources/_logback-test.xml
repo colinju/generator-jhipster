@@ -10,6 +10,7 @@
     <%_ } else if (databaseType == 'mongodb') { _%>
     <logger name="org.mongodb.driver" level="WARN"/>
     <%_ } _%>
+	<logger name="org.springframework.cloud.contract" level="INFO"/>
     <logger name="org.apache.catalina.startup.DigesterFactory" level="OFF"/>
 
     <root level="WARN">
