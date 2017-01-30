@@ -1237,7 +1237,7 @@
 					        </execution>
 					    </executions>
                         <configuration>
-                            <basePackageForTests><%= packageName %>.test</basePackageForTests>
+                            <packageWithBaseClasses><%= packageName %>.test</packageWithBaseClasses>
                         </configuration>
                     </plugin>
                 </plugins>
