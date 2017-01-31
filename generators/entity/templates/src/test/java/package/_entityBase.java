@@ -1,16 +1,14 @@
-package com.mycompany.myapp;
+package <%=packageName%>;
 
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.mycompany.myapp.web.rest.<%= entityClass %>Resource;
-import com.mycompany.myapp.web.rest.<%= entityClass %>ResourceIntTest;
+import <%=packageName%>.web.rest.<%= entityClass %>Resource;
+import <%=packageName%>.web.rest.<%= entityClass %>ResourceIntTest;
 
 /**
- * Test class for the CarotteResource REST controller.
- *
- * @see CarotteResource
+ * <%= entityClass %>Base is the base class for spring cloud contract.
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = TestCustomGenApp.class)
