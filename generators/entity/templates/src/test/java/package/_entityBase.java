@@ -1,13 +1,19 @@
 package com.mycompany.myapp;
+
+import org.junit.runner.RunWith;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
+
 import com.mycompany.myapp.web.rest.<%= entityClass %>Resource;
-import com.jayway.restassured.module.mockmvc.RestAssuredMockMvc;
+import com.mycompany.myapp.web.rest.<%= entityClass %>ResourceIntTest;
 
-import org.junit.Before;
-
-public class <%= entityClass %>Base {
-	@Before
-	public void setup() {
-		RestAssuredMockMvc.standaloneSetup(new <%= entityClass %>Resource());
-	}
+/**
+ * Test class for the CarotteResource REST controller.
+ *
+ * @see CarotteResource
+ */
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = TestCustomGenApp.class)
+public class <%= entityClass %>Base extends <%= entityClass %>ResourceIntTest{
 
 }
