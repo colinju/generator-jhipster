@@ -41,9 +41,9 @@ for (idx in fields) {
 			<%_ } else if (fieldType == 'UUID') { _%>
 				<%=fieldNameUnderscored %> :100000<%=coma %>
 			<%_ } else if (fieldType == 'LocalDate') { _%>
-				<%=fieldNameUnderscored %> :<%=coma %>
+				<%=fieldNameUnderscored %> : '1970-01-01' <%=coma %>
 			<%_ } else if (fieldType == 'ZonedDateTime') { _%>
-				<%=fieldNameUnderscored %> :<%=coma %>
+				<%=fieldNameUnderscored %> : '1970-01-01T00:00Z'<%=coma %>
 			<%_ } else if (fieldType == 'Boolean') { _%>
 				<%=fieldNameUnderscored %> : true<%=coma %>
 			<%_ } else if ((fieldType == 'byte[]' || fieldType === 'ByteBuffer') && fieldTypeBlobContent != 'text') { _%>
@@ -92,9 +92,9 @@ for (idx in fields) {
 			<%_ } else if (fieldType == 'UUID') { _%>
 				<%=fieldNameUnderscored %> :100000<%=coma %>
 			<%_ } else if (fieldType == 'LocalDate') { _%>
-				<%=fieldNameUnderscored %> :<%=coma %>
+				<%=fieldNameUnderscored %> : '1970-01-01' <%=coma %>
 			<%_ } else if (fieldType == 'ZonedDateTime') { _%>
-				<%=fieldNameUnderscored %> :<%=coma %>
+				<%=fieldNameUnderscored %> : '1970-01-01T00:00Z'<%=coma %>
 			<%_ } else if (fieldType == 'Boolean') { _%>
 				<%=fieldNameUnderscored %> : true<%=coma %>
 			<%_ } else if ((fieldType == 'byte[]' || fieldType === 'ByteBuffer') && fieldTypeBlobContent != 'text') { _%>
@@ -128,9 +128,9 @@ for (idx in fields) {
 			<%_ } else if (fieldType == 'UUID') { _%>
 				<%=fieldNameUnderscored %> :200000<%=coma %>
 			<%_ } else if (fieldType == 'LocalDate') { _%>
-				<%=fieldNameUnderscored %> :<%=coma %>
+				<%=fieldNameUnderscored %> : '1970-01-01' <%=coma %>
 			<%_ } else if (fieldType == 'ZonedDateTime') { _%>
-				<%=fieldNameUnderscored %> :<%=coma %>
+				<%=fieldNameUnderscored %> : '1970-01-01T00:00Z'<%=coma %>
 			<%_ } else if (fieldType == 'Boolean') { _%>
 				<%=fieldNameUnderscored %> : true<%=coma %>
 			<%_ } else if ((fieldType == 'byte[]' || fieldType === 'ByteBuffer') && fieldTypeBlobContent != 'text') { _%>
@@ -176,9 +176,9 @@ for (idx in fields) {
 			<%_ } else if (fieldType == 'UUID') { _%>
 				<%=fieldNameUnderscored %> :100000<%=coma %>
 			<%_ } else if (fieldType == 'LocalDate') { _%>
-				<%=fieldNameUnderscored %> :<%=coma %>
+				<%=fieldNameUnderscored %> : '1970-01-01' <%=coma %>
 			<%_ } else if (fieldType == 'ZonedDateTime') { _%>
-				<%=fieldNameUnderscored %> :<%=coma %>
+				<%=fieldNameUnderscored %> : '1970-01-01T00:00Z'<%=coma %>
 			<%_ } else if (fieldType == 'Boolean') { _%>
 				<%=fieldNameUnderscored %> : true<%=coma %>
 			<%_ } else if ((fieldType == 'byte[]' || fieldType === 'ByteBuffer') && fieldTypeBlobContent != 'text') { _%>
@@ -226,9 +226,9 @@ for (idx in fields) {
 			<%_ } else if (fieldType == 'UUID') { _%>
 				<%=fieldNameUnderscored %> :100000<%=coma %>
 			<%_ } else if (fieldType == 'LocalDate') { _%>
-				<%=fieldNameUnderscored %> :<%=coma %>
+				<%=fieldNameUnderscored %> : '1970-01-01' <%=coma %>
 			<%_ } else if (fieldType == 'ZonedDateTime') { _%>
-				<%=fieldNameUnderscored %> :<%=coma %>
+				<%=fieldNameUnderscored %> : '1970-01-01T00:00Z'<%=coma %>
 			<%_ } else if (fieldType == 'Boolean') { _%>
 				<%=fieldNameUnderscored %> : true<%=coma %>
 			<%_ } else if ((fieldType == 'byte[]' || fieldType === 'ByteBuffer') && fieldTypeBlobContent != 'text') { _%>

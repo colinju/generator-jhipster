@@ -63,11 +63,11 @@ public class <%= entityClass %>Base{
 		obj1.set<%=fieldNameCapitalized %>(100000);
 		obj2.set<%=fieldNameCapitalized %>(200000);
 		<%_ } else if (fieldType == 'LocalDate') { _%>
-		obj1.set<%=fieldNameCapitalized %>();
-		obj2.set<%=fieldNameCapitalized %>();
+		obj1.set<%=fieldNameCapitalized %>(LocalDate.ofEpochDay(0L));
+		obj2.set<%=fieldNameCapitalized %>(LocalDate.ofEpochDay(0L));
 		<%_ } else if (fieldType == 'ZonedDateTime') { _%>
-		obj1.set<%=fieldNameCapitalized %>();
-		obj2.set<%=fieldNameCapitalized %>();
+		obj1.set<%=fieldNameCapitalized %>(ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneOffset.UTC));
+		obj2.set<%=fieldNameCapitalized %>(ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneOffset.UTC));
 		<%_ } else if (fieldType == 'Boolean') { _%>
 		obj1.set<%=fieldNameCapitalized %>(true);
 		obj2.set<%=fieldNameCapitalized %>(false);
