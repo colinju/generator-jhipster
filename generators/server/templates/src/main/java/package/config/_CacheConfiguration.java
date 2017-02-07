@@ -96,7 +96,14 @@ public class CacheConfiguration {
                 log.debug("Adding Hazelcast (dev) cluster member " + clusterMember);
                 config.getNetworkConfig().getJoin().getTcpIpConfig().addMember(clusterMember);
             }
-        } else { // Production configuration, one host per instance all using port 5701
+        }
+		else if (env.acceptsProfiles(Constants.SPRING_PROFILE_INTEGRATION)) {
+            System.setProperty("hazelcast.local.localAddress", "127.0.0.1");
+            config.getNetworkConfig().setPort(serverProperties.getPort() + 5701);
+            config.getNetworkConfig().getJoin().getMulticastConfig().setEnabled(false);
+            config.getNetworkConfig().getJoin().getTcpIpConfig().setEnabled(true);          
+        } 
+		else { // Production configuration, one host per instance all using port 5701
             config.getNetworkConfig().setPort(5701);
             config.getNetworkConfig().getJoin().getMulticastConfig().setEnabled(false);
             config.getNetworkConfig().getJoin().getTcpIpConfig().setEnabled(true);

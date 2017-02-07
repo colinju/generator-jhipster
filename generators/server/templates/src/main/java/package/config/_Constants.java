@@ -19,6 +19,8 @@ public final class Constants {
     public static final String SPRING_PROFILE_SWAGGER = "swagger";
     // Spring profile used to disable running liquibase
     public static final String SPRING_PROFILE_NO_LIQUIBASE = "no-liquibase";
+	// Spring profile used for integration with spring cloud contract
+    public static final String SPRING_PROFILE_INTEGRATION= "integration";
 
     public static final String SYSTEM_ACCOUNT = "system";
 
