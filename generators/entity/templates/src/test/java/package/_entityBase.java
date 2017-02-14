@@ -4,9 +4,16 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.net.URISyntaxException;
+import java.math.BigDecimal;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import javax.inject.Inject;
 
 import org.junit.Before;
 import org.junit.runner.RunWith;
@@ -14,10 +21,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.data.domain.Pageable;
 
 import com.jayway.restassured.module.mockmvc.RestAssuredMockMvc;
 import com.mycompany.myapp.domain.<%= entityClass %>;
 import com.mycompany.myapp.web.rest.<%= entityClass %>Resource;
+import com.mycompany.myapp.service.dto.<%= entityClass %>DTO;
 
 /**
  * <%= entityClass %>Base is the base class for spring cloud contract.
@@ -26,13 +35,21 @@ import com.mycompany.myapp.web.rest.<%= entityClass %>Resource;
 @SpringBootTest(classes = TestCustomGenApp.class)
 public class <%= entityClass %>Base{
 	
-@Before
+	
+	
+	@Before
 	public void setup() throws URISyntaxException {
 		// mock resource
+		<%_ if (pagination != 'no') { _%>
+		Pageable pageable = mock(Pageable.class);
+		<%_ } _%>
 		<%= entityClass %>Resource mocked<%= entityClass %> = mock(<%= entityClass %>Resource.class);
 		
+		<% var viaService = service != 'no';
+		var instanceType = (dto == 'mapstruct') ? entityClass + 'DTO' : entityClass;
+		var instanceName = (dto == 'mapstruct') ? entityInstance + 'DTO' : entityInstance; -%>
 		// 2 objects for return/ list
-		<%= entityClass %> obj1 = new <%= entityClass %>(),obj2 = new <%= entityClass %>();
+		<%= instanceType %> obj1 = new <%= instanceType %>(),obj2 = new <%= instanceType %>();
 		obj1.setId(1L);
 		obj2.setId(2L);
 		<%_ 
@@ -57,8 +74,8 @@ public class <%= entityClass %>Base{
 		obj1.set<%=fieldNameCapitalized %>(10.10);
 		obj2.set<%=fieldNameCapitalized %>(20.20);
 		<%_ } else if (fieldType == 'BigDecimal') { _%>
-		obj1.set<%=fieldNameCapitalized %>(0.1000000000000000);
-		obj2.set<%=fieldNameCapitalized %>(0.2000000000000000);
+		obj1.set<%=fieldNameCapitalized %>(new BigDecimal("0.1000000000000000"));
+		obj2.set<%=fieldNameCapitalized %>(new BigDecimal("0.2000000000000000"));
 		<%_ } else if (fieldType == 'UUID') { _%>
 		obj1.set<%=fieldNameCapitalized %>(100000);
 		obj2.set<%=fieldNameCapitalized %>(200000);
@@ -77,9 +94,9 @@ public class <%= entityClass %>Base{
 		<%_ }} _%>		
 		
 		// entity list for get all
-		List<<%= entityClass %>> <%= entityClass.toLowerCase() %>s = new ArrayList<<%= entityClass %>>();
-		<%= entityClass.toLowerCase() %>s.add(obj1);
-		<%= entityClass.toLowerCase() %>s.add(obj2);
+		List<<%= entityClass %>DTO> <%= entityInstancePlural %> = new ArrayList<<%= entityClass %>DTO>();
+		<%= entityInstancePlural %>.add(obj1);
+		<%= entityInstancePlural %>.add(obj2);
 		
 		// get
 		when(mocked<%= entityClass %>.get<%= entityClass %>(1L)).thenReturn(Optional.ofNullable(obj1)
@@ -89,8 +106,17 @@ public class <%= entityClass %>Base{
 		            .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND)));
 		
 		// getALL
-		when(mocked<%= entityClass %>.getAll<%= entityClass %>s()).thenReturn(<%= entityClass.toLowerCase() %>s);
-
+		<%_ if (pagination == 'no') { _%>
+		when(mocked<%= entityClass %>.getAll<%= entityClassPlural %>()).thenReturn(<%= entityInstancePlural %>);
+		<%_ }else if (pagination != 'no') { _%>
+		when(mocked<%= entityClass %>.getAll<%= entityClassPlural %>(pageable)).thenReturn(
+				Optional.ofNullable(obj1)
+		        .map(result -> new ResponseEntity<>(
+		        		<%= entityInstancePlural %>,
+		                HttpStatus.OK))
+		            .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND)));
+		<%_ } _%>
+		
 		// create
 		when(mocked<%= entityClass %>.create<%= entityClass %>(obj1)).thenReturn(new ResponseEntity<>(
 		        null,

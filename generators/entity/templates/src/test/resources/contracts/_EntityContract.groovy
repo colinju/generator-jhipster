@@ -9,7 +9,7 @@ for (idx in fields) {
 		name("get one")
 		request {
 			method 'GET'
-			url('/api/<%=name%>s/1')
+			url('/api/<%= entityApiUrl %>/1')
 		}
 		response {
 			status 200
@@ -25,29 +25,30 @@ for (idx in fields) {
 			var fieldType = fields[idx].fieldType;
 			var fieldTypeBlobContent = fields[idx].fieldTypeBlobContent;
 			var isEnum = fields[idx].fieldIsEnum;
-			var fieldNameUnderscored = fields[idx].fieldNameUnderscored;
+			var fieldName = fields[idx].fieldName;
+			
 			if (fieldType == 'String' || fieldTypeBlobContent == 'text') {_%>
-				<%=fieldNameUnderscored %> : 'test'<%=coma %>
+				<%=fieldName %> : value(consumer('test'), producer(regex('[a-zA-Z0-9\\W]{1,255}')))<%=coma %>
 			<%_ } else if (fieldType == 'Integer') { _%>
-				<%=fieldNameUnderscored %> : 1<%=coma %>
+				<%=fieldName %> : value(consumer(1), producer(regex('[0-9]{1,10}')))<%=coma %>
 			<%_ } else if (fieldType == 'Long') { _%>
-				<%=fieldNameUnderscored %> : 1000L<%=coma %>
+				<%=fieldName %> : value(consumer(1000), producer(regex('[0-9]{1,10}')))<%=coma %>
 			<%_ } else if (fieldType == 'Float') { _%>
-				<%=fieldNameUnderscored %> : 10.0f<%=coma %>
+				<%=fieldName %> : value(consumer(10.0), producer(regex('[0-9]{1,10}.[0-9]{1,10}')))<%=coma %>
 			<%_ } else if (fieldType == 'Double') { _%>
-				<%=fieldNameUnderscored %> : 10.10<%=coma %>
+				<%=fieldName %> : value(consumer(10.0), producer(regex('[0-9]{1,10}.[0-9]{1,5}')))<%=coma %>
 			<%_ } else if (fieldType == 'BigDecimal') { _%>
-				<%=fieldNameUnderscored %> : 0.1000000000000000<%=coma %>
+				<%=fieldName %> : value(consumer(0.1000000000000000), producer(regex('[0-9]{1,10}.[0-9]{1,15}')))<%=coma %>
 			<%_ } else if (fieldType == 'UUID') { _%>
-				<%=fieldNameUnderscored %> :100000<%=coma %>
+				<%=fieldName %> : value(consumer(100000), producer(regex('[0-9]{1,15}')))<%=coma %>
 			<%_ } else if (fieldType == 'LocalDate') { _%>
-				<%=fieldNameUnderscored %> : '1970-01-01' <%=coma %>
+				<%=fieldName %> : value(consumer([1970,01,01]), producer([1970,01,01]))<%=coma %>
 			<%_ } else if (fieldType == 'ZonedDateTime') { _%>
-				<%=fieldNameUnderscored %> : '1970-01-01T00:00Z'<%=coma %>
+				<%=fieldName %> : value(consumer('1483225200.100000000'), producer(regex('[0-9]{1,10}.[0-9]{1,9}')))<%=coma %>
 			<%_ } else if (fieldType == 'Boolean') { _%>
-				<%=fieldNameUnderscored %> : true<%=coma %>
+				<%=fieldName %> : value(consumer(true), producer(regex(anyBoolean())))<%=coma %>
 			<%_ } else if ((fieldType == 'byte[]' || fieldType === 'ByteBuffer') && fieldTypeBlobContent != 'text') { _%>
-				<%=fieldNameUnderscored %> : 100100100100<%=coma %>
+				<%=fieldName %> : value(consumer(100100100100), producer(regex('[0-1]{1,1000}')))<%=coma %>
 			<%_ }} _%>
 			])
 			headers {
@@ -59,7 +60,7 @@ for (idx in fields) {
         name("get all")
         request {
             method 'GET'
-            url('/api/<%=name%>s?sort=id,desc')
+            url('/api/<%= entityApiUrl %>?sort=id,desc')
 			
         }
         response {
@@ -76,29 +77,30 @@ for (idx in fields) {
 			var fieldType = fields[idx].fieldType;
 			var fieldTypeBlobContent = fields[idx].fieldTypeBlobContent;
 			var isEnum = fields[idx].fieldIsEnum;
-			var fieldNameUnderscored = fields[idx].fieldNameUnderscored;
+			var fieldName = fields[idx].fieldName;
+			
 			if (fieldType == 'String' || fieldTypeBlobContent == 'text') {_%>
-				<%=fieldNameUnderscored %> : 'test'<%=coma %>
+				<%=fieldName %> : value(consumer('test'), producer(regex('[a-zA-Z0-9]{1,255}')))<%=coma %>
 			<%_ } else if (fieldType == 'Integer') { _%>
-				<%=fieldNameUnderscored %> : 1<%=coma %>
+				<%=fieldName %> : value(consumer(1), producer(regex('[0-9]{1,10}')))<%=coma %>
 			<%_ } else if (fieldType == 'Long') { _%>
-				<%=fieldNameUnderscored %> : 1000L<%=coma %>
+				<%=fieldName %> : value(consumer(1000), producer(regex('[0-9]{1,10}')))<%=coma %>
 			<%_ } else if (fieldType == 'Float') { _%>
-				<%=fieldNameUnderscored %> : 10.0f<%=coma %>
+				<%=fieldName %> : value(consumer(10.0), producer(regex('[0-9]{1,10}.[0-9]{1,10}')))<%=coma %>
 			<%_ } else if (fieldType == 'Double') { _%>
-				<%=fieldNameUnderscored %> : 10.10<%=coma %>
+				<%=fieldName %> : value(consumer(10.0), producer(regex('[0-9]{1,10}.[0-9]{1,5}')))<%=coma %>
 			<%_ } else if (fieldType == 'BigDecimal') { _%>
-				<%=fieldNameUnderscored %> : 0.1000000000000000<%=coma %>
+				<%=fieldName %> : value(consumer(0.1000000000000000), producer(regex('[0-9]{1,10}.[0-9]{1,15}')))<%=coma %>
 			<%_ } else if (fieldType == 'UUID') { _%>
-				<%=fieldNameUnderscored %> :100000<%=coma %>
+				<%=fieldName %> :value(consumer(100000), producer(regex('[0-9]{1,15}')))<%=coma %>
 			<%_ } else if (fieldType == 'LocalDate') { _%>
-				<%=fieldNameUnderscored %> : '1970-01-01' <%=coma %>
+				<%=fieldName %> :value(consumer([1970,01,01]), producer([1970,01,01]))<%=coma %>
 			<%_ } else if (fieldType == 'ZonedDateTime') { _%>
-				<%=fieldNameUnderscored %> : '1970-01-01T00:00Z'<%=coma %>
+				<%=fieldName %> : value(consumer('1483225200.100000000'), producer(regex('[0-9]{1,10}.[0-9]{1,9}')))<%=coma %>
 			<%_ } else if (fieldType == 'Boolean') { _%>
-				<%=fieldNameUnderscored %> : true<%=coma %>
+				<%=fieldName %> : value(consumer(true), producer(regex(anyBoolean())))<%=coma %>
 			<%_ } else if ((fieldType == 'byte[]' || fieldType === 'ByteBuffer') && fieldTypeBlobContent != 'text') { _%>
-				<%=fieldNameUnderscored %> : 100100100100<%=coma %>
+				<%=fieldName %> : value(consumer(100100100100), producer(regex('[0-1]{1,1000}')))<%=coma %>
 			<%_ }} _%>
 				],
 				[id : 2,
@@ -112,29 +114,30 @@ for (idx in fields) {
 			var fieldType = fields[idx].fieldType;
 			var fieldTypeBlobContent = fields[idx].fieldTypeBlobContent;
 			var isEnum = fields[idx].fieldIsEnum;
-			var fieldNameUnderscored = fields[idx].fieldNameUnderscored;
+			var fieldName = fields[idx].fieldName;
+			
 			if (fieldType == 'String' || fieldTypeBlobContent == 'text') {_%>
-				<%=fieldNameUnderscored %> : 'test2'<%=coma %>
+				<%=fieldName %> : value(consumer('test2'), producer(regex('[a-zA-Z0-9]{1,255}')))<%=coma %>
 			<%_ } else if (fieldType == 'Integer') { _%>
-				<%=fieldNameUnderscored %> : 2<%=coma %>
+				<%=fieldName %> : value(consumer(2), producer(regex('[0-9]{1,10}')))<%=coma %>
 			<%_ } else if (fieldType == 'Long') { _%>
-				<%=fieldNameUnderscored %> : 2000L<%=coma %>
+				<%=fieldName %> : value(consumer(2000), producer(regex('[0-9]{1,10}')))<%=coma %>
 			<%_ } else if (fieldType == 'Float') { _%>
-				<%=fieldNameUnderscored %> : 20.0f<%=coma %>
+				<%=fieldName %> : value(consumer(20.0), producer(regex('[0-9]{1,10}.[0-9]{1,10}')))<%=coma %>
 			<%_ } else if (fieldType == 'Double') { _%>
-				<%=fieldNameUnderscored %> : 20.20<%=coma %>
+				<%=fieldName %> : value(consumer(2.0), producer(regex('[0-9]{1,10}.[0-9]{1,5}')))<%=coma %>
 			<%_ } else if (fieldType == 'BigDecimal') { _%>
-				<%=fieldNameUnderscored %> : 0.200000000000000<%=coma %>
+				<%=fieldName %> : value(consumer(0.2000000000000000), producer(regex('[0-9]{1,10}.[0-9]{1,15}')))<%=coma %>
 			<%_ } else if (fieldType == 'UUID') { _%>
-				<%=fieldNameUnderscored %> :200000<%=coma %>
+				<%=fieldName %> :value(consumer(20000), producer(regex('[0-9]{1,15}')))<%=coma %>
 			<%_ } else if (fieldType == 'LocalDate') { _%>
-				<%=fieldNameUnderscored %> : '1970-01-01' <%=coma %>
+				<%=fieldName %> :value(consumer([1970,01,01]), producer([1970,01,01]))<%=coma %>
 			<%_ } else if (fieldType == 'ZonedDateTime') { _%>
-				<%=fieldNameUnderscored %> : '1970-01-01T00:00Z'<%=coma %>
+				<%=fieldName %> : value(consumer('1483225200.100000000'), producer(regex('[0-9]{1,10}.[0-9]{1,9}')))<%=coma %>
 			<%_ } else if (fieldType == 'Boolean') { _%>
-				<%=fieldNameUnderscored %> : true<%=coma %>
+				<%=fieldName %> : value(consumer(true), producer(regex(anyBoolean())))<%=coma %>
 			<%_ } else if ((fieldType == 'byte[]' || fieldType === 'ByteBuffer') && fieldTypeBlobContent != 'text') { _%>
-				<%=fieldNameUnderscored %> : 01101101101<%=coma %>
+				<%=fieldName %> : value(consumer(011011011011), producer(regex('[0-1]{1,1000}')))<%=coma %>
 			<%_ }} _%>
 			]
 			
@@ -148,7 +151,7 @@ for (idx in fields) {
         name("create")
         request {
             method 'POST'
-            url('/api/<%=name%>s')
+            url('/api/<%= entityApiUrl %>')
 			body([
 			<%_ 
 			var i = 0;
@@ -160,29 +163,30 @@ for (idx in fields) {
 			var fieldType = fields[idx].fieldType;
 			var fieldTypeBlobContent = fields[idx].fieldTypeBlobContent;
 			var isEnum = fields[idx].fieldIsEnum;
-			var fieldNameUnderscored = fields[idx].fieldNameUnderscored;
+			var fieldName = fields[idx].fieldName;
+			
 			if (fieldType == 'String' || fieldTypeBlobContent == 'text') {_%>
-				<%=fieldNameUnderscored %> : 'test'<%=coma %>
+				<%=fieldName %> : value(consumer(regex('[a-zA-Z0-9]{1,255}')), producer('test'))<%=coma %>
 			<%_ } else if (fieldType == 'Integer') { _%>
-				<%=fieldNameUnderscored %> : 1<%=coma %>
+				<%=fieldName %> : value(consumer(regex('[0-9]{1,10}')), producer(2))<%=coma %>
 			<%_ } else if (fieldType == 'Long') { _%>
-				<%=fieldNameUnderscored %> : 1000L<%=coma %>
+				<%=fieldName %> : value(consumer(regex('[0-9]{1,10}')), producer(2000))<%=coma %>
 			<%_ } else if (fieldType == 'Float') { _%>
-				<%=fieldNameUnderscored %> : 10.0f<%=coma %>
+				<%=fieldName %> : value(consumer(regex('[0-9]{1,10}.[0-9]{1,10}')), producer(20.0))<%=coma %>
 			<%_ } else if (fieldType == 'Double') { _%>
-				<%=fieldNameUnderscored %> : 10.10<%=coma %>
+				<%=fieldName %> : value(consumer(regex('[0-9]{1,10}.[0-9]{1,5}')), producer(2.0))<%=coma %>
 			<%_ } else if (fieldType == 'BigDecimal') { _%>
-				<%=fieldNameUnderscored %> : 0.1000000000000000<%=coma %>
+				<%=fieldName %> : value(consumer(regex('[0-9]{1,10}.[0-9]{1,15}')), producer(0.2000000000000000))<%=coma %>
 			<%_ } else if (fieldType == 'UUID') { _%>
-				<%=fieldNameUnderscored %> :100000<%=coma %>
+				<%=fieldName %> :value(consumer(regex('[0-9]{1,15}')), producer(20000))<%=coma %>
 			<%_ } else if (fieldType == 'LocalDate') { _%>
-				<%=fieldNameUnderscored %> : '1970-01-01' <%=coma %>
+				<%=fieldName %> :value(consumer([1970,01,01]), producer([1970,01,01]))<%=coma %>
 			<%_ } else if (fieldType == 'ZonedDateTime') { _%>
-				<%=fieldNameUnderscored %> : '1970-01-01T00:00Z'<%=coma %>
+				<%=fieldName %> : value(consumer(regex('[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}Z')), producer('1970-01-01T00:00Z'))<%=coma %>
 			<%_ } else if (fieldType == 'Boolean') { _%>
-				<%=fieldNameUnderscored %> : true<%=coma %>
+				<%=fieldName %> : value(consumer(regex(anyBoolean())), producer(true))<%=coma %>
 			<%_ } else if ((fieldType == 'byte[]' || fieldType === 'ByteBuffer') && fieldTypeBlobContent != 'text') { _%>
-				<%=fieldNameUnderscored %> : 100100100100<%=coma %>
+				<%=fieldName %> : value(consumer(regex('[0-1]{1,1000}')), producer(011011011011))<%=coma %>
 			<%_ }} _%>
 			])
 			headers {
@@ -197,7 +201,7 @@ for (idx in fields) {
 		name("update")
 		request {
 			method 'PUT'
-			url('/api/<%=name%>s')
+			url('/api/<%= entityApiUrl %>')
 			body([
 				id : 1,
 			<%_ 
@@ -210,29 +214,29 @@ for (idx in fields) {
 			var fieldType = fields[idx].fieldType;
 			var fieldTypeBlobContent = fields[idx].fieldTypeBlobContent;
 			var isEnum = fields[idx].fieldIsEnum;
-			var fieldNameUnderscored = fields[idx].fieldNameUnderscored;
+			var fieldName = fields[idx].fieldName;
 			if (fieldType == 'String' || fieldTypeBlobContent == 'text') {_%>
-				<%=fieldNameUnderscored %> : 'test'<%=coma %>
+				<%=fieldName %> : value(consumer(regex('[a-zA-Z0-9]{1,255}')), producer('test'))<%=coma %>
 			<%_ } else if (fieldType == 'Integer') { _%>
-				<%=fieldNameUnderscored %> : 1<%=coma %>
+				<%=fieldName %> : value(consumer(regex('[0-9]{1,10}')), producer(2))<%=coma %>
 			<%_ } else if (fieldType == 'Long') { _%>
-				<%=fieldNameUnderscored %> : 1000L<%=coma %>
+				<%=fieldName %> : value(consumer(regex('[0-9]{1,10}')), producer(2000))<%=coma %>
 			<%_ } else if (fieldType == 'Float') { _%>
-				<%=fieldNameUnderscored %> : 10.0f<%=coma %>
+				<%=fieldName %> : value(consumer(regex('[0-9]{1,10}.[0-9]{1,10}')), producer(20.0))<%=coma %>
 			<%_ } else if (fieldType == 'Double') { _%>
-				<%=fieldNameUnderscored %> : 10.10<%=coma %>
+				<%=fieldName %> : value(consumer(regex('[0-9]{1,10}.[0-9]{1,5}')), producer(2.0))<%=coma %>
 			<%_ } else if (fieldType == 'BigDecimal') { _%>
-				<%=fieldNameUnderscored %> : 0.1000000000000000<%=coma %>
+				<%=fieldName %> : value(consumer(regex('[0-9]{1,10}.[0-9]{1,15}')), producer(0.2000000000000000))<%=coma %>
 			<%_ } else if (fieldType == 'UUID') { _%>
-				<%=fieldNameUnderscored %> :100000<%=coma %>
+				<%=fieldName %> :value(consumer(regex('[0-9]{1,15}')), producer(20000))<%=coma %>
 			<%_ } else if (fieldType == 'LocalDate') { _%>
-				<%=fieldNameUnderscored %> : '1970-01-01' <%=coma %>
+				<%=fieldName %> :value(consumer([1970,01,01]), producer([1970,01,01]))<%=coma %>
 			<%_ } else if (fieldType == 'ZonedDateTime') { _%>
-				<%=fieldNameUnderscored %> : '1970-01-01T00:00Z'<%=coma %>
+				<%=fieldName %> : value(consumer(regex('[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}Z')), producer('1970-01-01T00:00Z'))<%=coma %>
 			<%_ } else if (fieldType == 'Boolean') { _%>
-				<%=fieldNameUnderscored %> : true<%=coma %>
+				<%=fieldName %> : value(consumer(regex(anyBoolean())), producer(true))<%=coma %>
 			<%_ } else if ((fieldType == 'byte[]' || fieldType === 'ByteBuffer') && fieldTypeBlobContent != 'text') { _%>
-				<%=fieldNameUnderscored %> : 100100100100<%=coma %>
+				<%=fieldName %> : value(consumer(regex('[0-1]{1,1000}')), producer(011011011011))<%=coma %>
 			<%_ }} _%>
 			])
 			headers {
@@ -247,7 +251,7 @@ for (idx in fields) {
 		name("delete")
 		request {
 			method 'DELETE'
-			url('/api/<%=name%>s/1')
+			url('/api/<%= entityApiUrl %>/1')
 		}
 		response {
 			status 200
