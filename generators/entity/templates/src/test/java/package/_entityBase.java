@@ -24,15 +24,15 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.data.domain.Pageable;
 
 import com.jayway.restassured.module.mockmvc.RestAssuredMockMvc;
-import com.mycompany.myapp.domain.<%= entityClass %>;
-import com.mycompany.myapp.web.rest.<%= entityClass %>Resource;
-import com.mycompany.myapp.service.dto.<%= entityClass %>DTO;
+import <%=packageName%>.domain.<%= entityClass %>;
+import <%=packageName%>.web.rest.<%= entityClass %>Resource;
+import <%=packageName%>.service.dto.<%= entityClass %>DTO;
 
 /**
  * <%= entityClass %>Base is the base class for spring cloud contract.
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = TestCustomGenApp.class)
+@SpringBootTest(classes = <%= mainClass %>.class)
 public class <%= entityClass %>Base{
 	
 	
