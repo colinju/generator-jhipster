@@ -44,7 +44,7 @@ for (idx in fields) {
 			<%_ } else if (fieldType == 'LocalDate') { _%>
 				<%=fieldName %> : value(consumer([1970,01,01]), producer([1970,01,01]))<%=coma %>
 			<%_ } else if (fieldType == 'ZonedDateTime') { _%>
-				<%=fieldName %> : value(consumer('1483225200.100000000'), producer(regex('[0-9]{1,10}.[0-9]{1,9}')))<%=coma %>
+				<%=fieldName %> : value(consumer('2017-01-01T00:00:00.000+01:00'), producer(regex('[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}.[0-9]{3}[+][0-9]{2}:[0-9]{2}')))<%=coma %>
 			<%_ } else if (fieldType == 'Boolean') { _%>
 				<%=fieldName %> : value(consumer(true), producer(regex(anyBoolean())))<%=coma %>
 			<%_ } else if ((fieldType == 'byte[]' || fieldType === 'ByteBuffer') && fieldTypeBlobContent != 'text') { _%>
@@ -96,7 +96,7 @@ for (idx in fields) {
 			<%_ } else if (fieldType == 'LocalDate') { _%>
 				<%=fieldName %> :value(consumer([1970,01,01]), producer([1970,01,01]))<%=coma %>
 			<%_ } else if (fieldType == 'ZonedDateTime') { _%>
-				<%=fieldName %> : value(consumer('1483225200.100000000'), producer(regex('[0-9]{1,10}.[0-9]{1,9}')))<%=coma %>
+				<%=fieldName %> : value(consumer('2017-01-01T00:00:00.000+01:00'), producer(regex('[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}.[0-9]{3}[+][0-9]{2}:[0-9]{2}')))<%=coma %>
 			<%_ } else if (fieldType == 'Boolean') { _%>
 				<%=fieldName %> : value(consumer(true), producer(regex(anyBoolean())))<%=coma %>
 			<%_ } else if ((fieldType == 'byte[]' || fieldType === 'ByteBuffer') && fieldTypeBlobContent != 'text') { _%>
@@ -133,7 +133,7 @@ for (idx in fields) {
 			<%_ } else if (fieldType == 'LocalDate') { _%>
 				<%=fieldName %> :value(consumer([1970,01,01]), producer([1970,01,01]))<%=coma %>
 			<%_ } else if (fieldType == 'ZonedDateTime') { _%>
-				<%=fieldName %> : value(consumer('1483225200.100000000'), producer(regex('[0-9]{1,10}.[0-9]{1,9}')))<%=coma %>
+				<%=fieldName %> : value(consumer('2017-01-01T00:00:00.000+01:00'), producer(regex('[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}.[0-9]{3}[+][0-9]{2}:[0-9]{2}')))<%=coma %>
 			<%_ } else if (fieldType == 'Boolean') { _%>
 				<%=fieldName %> : value(consumer(true), producer(regex(anyBoolean())))<%=coma %>
 			<%_ } else if ((fieldType == 'byte[]' || fieldType === 'ByteBuffer') && fieldTypeBlobContent != 'text') { _%>
@@ -182,7 +182,7 @@ for (idx in fields) {
 			<%_ } else if (fieldType == 'LocalDate') { _%>
 				<%=fieldName %> :value(consumer([1970,01,01]), producer([1970,01,01]))<%=coma %>
 			<%_ } else if (fieldType == 'ZonedDateTime') { _%>
-				<%=fieldName %> : value(consumer(regex('[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}Z')), producer('1970-01-01T00:00Z'))<%=coma %>
+				<%=fieldName %> : value(consumer(regex('[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}.[0-9]{3}[+][0-9]{2}:[0-9]{2}')), producer('2017-01-01T00:00:00.000+01:00'))<%=coma %>
 			<%_ } else if (fieldType == 'Boolean') { _%>
 				<%=fieldName %> : value(consumer(regex(anyBoolean())), producer(true))<%=coma %>
 			<%_ } else if ((fieldType == 'byte[]' || fieldType === 'ByteBuffer') && fieldTypeBlobContent != 'text') { _%>
@@ -232,7 +232,7 @@ for (idx in fields) {
 			<%_ } else if (fieldType == 'LocalDate') { _%>
 				<%=fieldName %> :value(consumer([1970,01,01]), producer([1970,01,01]))<%=coma %>
 			<%_ } else if (fieldType == 'ZonedDateTime') { _%>
-				<%=fieldName %> : value(consumer(regex('[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}Z')), producer('1970-01-01T00:00Z'))<%=coma %>
+				<%=fieldName %> : value(consumer(regex('[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}.[0-9]{3}[+][0-9]{2}:[0-9]{2}')), producer('2017-01-01T00:00:00.000+01:00'))<%=coma %>
 			<%_ } else if (fieldType == 'Boolean') { _%>
 				<%=fieldName %> : value(consumer(regex(anyBoolean())), producer(true))<%=coma %>
 			<%_ } else if ((fieldType == 'byte[]' || fieldType === 'ByteBuffer') && fieldTypeBlobContent != 'text') { _%>

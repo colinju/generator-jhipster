@@ -2,7 +2,6 @@ package <%=packageName%>;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-
 import java.net.URISyntaxException;
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -10,8 +9,11 @@ import java.time.LocalDate;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
+import java.util.Set;
 
 import javax.inject.Inject;
 
@@ -20,9 +22,25 @@ import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.request.RequestPostProcessor;
+import org.springframework.test.web.servlet.setup.ConfigurableMockMvcBuilder;
+import org.springframework.test.web.servlet.setup.MockMvcConfigurer;
+import org.springframework.test.web.servlet.setup.StandaloneMockMvcBuilder;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.data.domain.Pageable;
 
+import com.jayway.jsonpath.Configuration;
+import com.jayway.jsonpath.JsonPath;
+import com.jayway.jsonpath.Option;
+import com.jayway.jsonpath.spi.json.GsonJsonProvider;
+import com.jayway.jsonpath.spi.json.JacksonJsonProvider;
+import com.jayway.jsonpath.spi.json.JsonProvider;
+import com.jayway.jsonpath.spi.mapper.GsonMappingProvider;
+import com.jayway.jsonpath.spi.mapper.JacksonMappingProvider;
+import com.jayway.jsonpath.spi.mapper.MappingProvider;
 import com.jayway.restassured.module.mockmvc.RestAssuredMockMvc;
 import <%=packageName%>.domain.<%= entityClass %>;
 import <%=packageName%>.web.rest.<%= entityClass %>Resource;
@@ -35,10 +53,32 @@ import <%=packageName%>.service.dto.<%= entityClass %>DTO;
 @SpringBootTest(classes = <%= mainClass %>.class)
 public class <%= entityClass %>Base{
 	
-	
+	@Inject
+    private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 	
 	@Before
 	public void setup() throws URISyntaxException {
+		
+		Configuration.setDefaults(new Configuration.Defaults() {
+		    private final JsonProvider jsonProvider = new JacksonJsonProvider();
+		    private final MappingProvider mappingProvider = new JacksonMappingProvider();
+
+		    @Override
+		    public JsonProvider jsonProvider() {
+		        return jsonProvider;
+		    }
+
+		    @Override
+		    public MappingProvider mappingProvider() {
+		        return mappingProvider;
+		    }
+
+		    @Override
+		    public Set<Option> options() {
+		        return EnumSet.noneOf(Option.class);
+		    }
+		});
+		
 		// mock resource
 		<%_ if (pagination != 'no') { _%>
 		Pageable pageable = mock(Pageable.class);
@@ -83,8 +123,8 @@ public class <%= entityClass %>Base{
 		obj1.set<%=fieldNameCapitalized %>(LocalDate.ofEpochDay(0L));
 		obj2.set<%=fieldNameCapitalized %>(LocalDate.ofEpochDay(0L));
 		<%_ } else if (fieldType == 'ZonedDateTime') { _%>
-		obj1.set<%=fieldNameCapitalized %>(ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneOffset.UTC));
-		obj2.set<%=fieldNameCapitalized %>(ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneOffset.UTC));
+		obj1.set<%=fieldNameCapitalized %>(ZonedDateTime.now());
+		obj2.set<%=fieldNameCapitalized %>(ZonedDateTime.now());
 		<%_ } else if (fieldType == 'Boolean') { _%>
 		obj1.set<%=fieldNameCapitalized %>(true);
 		obj2.set<%=fieldNameCapitalized %>(false);
@@ -131,7 +171,22 @@ public class <%= entityClass %>Base{
 		when(mocked<%= entityClass %>.delete<%= entityClass %>(1L)).thenReturn(new ResponseEntity<>(
 		        null,
 		        HttpStatus.OK));
+				
+
+		RestAssuredMockMvc.standaloneSetup(mocked<%= entityClass %>, new MockMvcConfigurer(){
+			@Override
+			public void afterConfigurerAdded(ConfigurableMockMvcBuilder<?> builder) {
+				StandaloneMockMvcBuilder s = (StandaloneMockMvcBuilder) builder;
+				s.setCustomArgumentResolvers(new PageableHandlerMethodArgumentResolver())
+				.setMessageConverters(jacksonMessageConverter);
+			}
+
+			@Override
+			public RequestPostProcessor beforeMockMvcCreated(ConfigurableMockMvcBuilder<?> builder, WebApplicationContext cxt) {
+				return null;
+			}
+		});
 		
-		RestAssuredMockMvc.standaloneSetup(mocked<%= entityClass %>);
+		//RestAssuredMockMvc.standaloneSetup(mocked<%= entityClass %>);
 	}
 }
