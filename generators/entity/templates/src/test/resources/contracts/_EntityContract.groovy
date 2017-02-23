@@ -9,12 +9,12 @@ for (idx in fields) {
 		name("get one")
 		request {
 			method 'GET'
-			url('/api/<%= entityApiUrl %>/1')
+			url $(consumer(regex('^/api/<%= entityApiUrl %>/[0-9]{0,10}')), producer(execute('generateUrl()')))
 		}
 		response {
 			status 200
 			body([
-				id : 1,
+				id : value(consumer('1'), producer(regex('[0-9]{1,10}'))),
 			<%_ 
 			var i = 0;
 			var coma = '';
@@ -44,7 +44,7 @@ for (idx in fields) {
 			<%_ } else if (fieldType == 'LocalDate') { _%>
 				<%=fieldName %> : value(consumer([1970,01,01]), producer([1970,01,01]))<%=coma %>
 			<%_ } else if (fieldType == 'ZonedDateTime') { _%>
-				<%=fieldName %> : value(consumer('2017-01-01T00:00:00.000+01:00'), producer(regex('[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}.[0-9]{3}[+][0-9]{2}:[0-9]{2}')))<%=coma %>
+				<%=fieldName %> : value(consumer('2017-01-01T00:00:00.000+01:00'), producer(regex('[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}[.]{0,1}[0-9]{0,3}[+][0-9]{2}:[0-9]{2}')))<%=coma %>
 			<%_ } else if (fieldType == 'Boolean') { _%>
 				<%=fieldName %> : value(consumer(true), producer(regex(anyBoolean())))<%=coma %>
 			<%_ } else if ((fieldType == 'byte[]' || fieldType === 'ByteBuffer') && fieldTypeBlobContent != 'text') { _%>
@@ -66,7 +66,7 @@ for (idx in fields) {
         response {
             status 200
 			body([
-				[id : 1,
+				[id :value(consumer('1'), producer(regex('[0-9]{1,10}'))),
 			<%_ 
 			var i = 0;
 			var coma = '';
@@ -96,14 +96,14 @@ for (idx in fields) {
 			<%_ } else if (fieldType == 'LocalDate') { _%>
 				<%=fieldName %> :value(consumer([1970,01,01]), producer([1970,01,01]))<%=coma %>
 			<%_ } else if (fieldType == 'ZonedDateTime') { _%>
-				<%=fieldName %> : value(consumer('2017-01-01T00:00:00.000+01:00'), producer(regex('[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}.[0-9]{3}[+][0-9]{2}:[0-9]{2}')))<%=coma %>
+				<%=fieldName %> : value(consumer('2017-01-01T00:00:00.000+01:00'), producer(regex('[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}[.]{0,1}[0-9]{0,3}[+][0-9]{2}:[0-9]{2}')))<%=coma %>
 			<%_ } else if (fieldType == 'Boolean') { _%>
 				<%=fieldName %> : value(consumer(true), producer(regex(anyBoolean())))<%=coma %>
 			<%_ } else if ((fieldType == 'byte[]' || fieldType === 'ByteBuffer') && fieldTypeBlobContent != 'text') { _%>
 				<%=fieldName %> : value(consumer(100100100100), producer(regex('[0-1]{1,1000}')))<%=coma %>
 			<%_ }} _%>
 				],
-				[id : 2,
+				[id : value(consumer('2'), producer(regex('[0-9]{1,10}'))),
 			<%_ 
 			var i = 0;
 			var coma = '';
@@ -133,7 +133,7 @@ for (idx in fields) {
 			<%_ } else if (fieldType == 'LocalDate') { _%>
 				<%=fieldName %> :value(consumer([1970,01,01]), producer([1970,01,01]))<%=coma %>
 			<%_ } else if (fieldType == 'ZonedDateTime') { _%>
-				<%=fieldName %> : value(consumer('2017-01-01T00:00:00.000+01:00'), producer(regex('[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}.[0-9]{3}[+][0-9]{2}:[0-9]{2}')))<%=coma %>
+				<%=fieldName %> : value(consumer('2017-01-01T00:00:00.000+01:00'), producer(regex('[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}[.]{0,1}[0-9]{0,3}[+][0-9]{2}:[0-9]{2}')))<%=coma %>
 			<%_ } else if (fieldType == 'Boolean') { _%>
 				<%=fieldName %> : value(consumer(true), producer(regex(anyBoolean())))<%=coma %>
 			<%_ } else if ((fieldType == 'byte[]' || fieldType === 'ByteBuffer') && fieldTypeBlobContent != 'text') { _%>
@@ -182,7 +182,7 @@ for (idx in fields) {
 			<%_ } else if (fieldType == 'LocalDate') { _%>
 				<%=fieldName %> :value(consumer([1970,01,01]), producer([1970,01,01]))<%=coma %>
 			<%_ } else if (fieldType == 'ZonedDateTime') { _%>
-				<%=fieldName %> : value(consumer(regex('[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}.[0-9]{3}[+][0-9]{2}:[0-9]{2}')), producer('2017-01-01T00:00:00.000+01:00'))<%=coma %>
+				<%=fieldName %> : value(consumer(regex('[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}[.]{0,1}[0-9]{0,3}[+][0-9]{2}:[0-9]{2}')), producer('2017-01-01T00:00:00.000+01:00'))<%=coma %>
 			<%_ } else if (fieldType == 'Boolean') { _%>
 				<%=fieldName %> : value(consumer(regex(anyBoolean())), producer(true))<%=coma %>
 			<%_ } else if ((fieldType == 'byte[]' || fieldType === 'ByteBuffer') && fieldTypeBlobContent != 'text') { _%>
@@ -194,7 +194,7 @@ for (idx in fields) {
 			}
         }
         response {
-            status 200
+            status 201
         }
     },
 	Contract.make {
@@ -203,7 +203,7 @@ for (idx in fields) {
 			method 'PUT'
 			url('/api/<%= entityApiUrl %>')
 			body([
-				id : 1,
+				id : value(consumer(regex('[0-9]{1,10}')), producer('1')),
 			<%_ 
 			var i = 0;
 			var coma = '';
@@ -232,7 +232,7 @@ for (idx in fields) {
 			<%_ } else if (fieldType == 'LocalDate') { _%>
 				<%=fieldName %> :value(consumer([1970,01,01]), producer([1970,01,01]))<%=coma %>
 			<%_ } else if (fieldType == 'ZonedDateTime') { _%>
-				<%=fieldName %> : value(consumer(regex('[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}.[0-9]{3}[+][0-9]{2}:[0-9]{2}')), producer('2017-01-01T00:00:00.000+01:00'))<%=coma %>
+				<%=fieldName %> : value(consumer(regex('[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}[.]{0,1}[0-9]{0,3}[+][0-9]{2}:[0-9]{2}')), producer('2017-01-01T00:00:00.000+01:00'))<%=coma %>
 			<%_ } else if (fieldType == 'Boolean') { _%>
 				<%=fieldName %> : value(consumer(regex(anyBoolean())), producer(true))<%=coma %>
 			<%_ } else if ((fieldType == 'byte[]' || fieldType === 'ByteBuffer') && fieldTypeBlobContent != 'text') { _%>
@@ -251,7 +251,7 @@ for (idx in fields) {
 		name("delete")
 		request {
 			method 'DELETE'
-			url('/api/<%= entityApiUrl %>/1')
+			url $(consumer(regex('^/api/<%= entityApiUrl %>/[0-9]{0,10}')), producer(execute('generateUrl()')))
 		}
 		response {
 			status 200
