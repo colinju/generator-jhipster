@@ -9,7 +9,7 @@ for (idx in fields) {
 		name("get one")
 		request {
 			method 'GET'
-			url $(consumer(regex('^/api/<%= entityApiUrl %>/[0-9]{0,10}')), producer(execute('generateUrl()')))
+			url $(consumer(regex('^/api/<%= entityApiUrl %>/[0-9]{0,10}')), producer(execute('urlGetAndDelete()')))
 		}
 		response {
 			status 200
@@ -44,7 +44,7 @@ for (idx in fields) {
 			<%_ } else if (fieldType == 'LocalDate') { _%>
 				<%=fieldName %> : value(consumer([1970,01,01]), producer([1970,01,01]))<%=coma %>
 			<%_ } else if (fieldType == 'ZonedDateTime') { _%>
-				<%=fieldName %> : value(consumer('2017-01-01T00:00:00.000+01:00'), producer(regex('[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}[.]{0,1}[0-9]{0,3}[+][0-9]{2}:[0-9]{2}')))<%=coma %>
+				<%=fieldName %> : value(consumer('2017-01-01T00:00:00Z'), producer(regex(isoDateTime()+'Z')))<%=coma %>
 			<%_ } else if (fieldType == 'Boolean') { _%>
 				<%=fieldName %> : value(consumer(true), producer(regex(anyBoolean())))<%=coma %>
 			<%_ } else if ((fieldType == 'byte[]' || fieldType === 'ByteBuffer') && fieldTypeBlobContent != 'text') { _%>
@@ -60,7 +60,7 @@ for (idx in fields) {
         name("get all")
         request {
             method 'GET'
-            url('/api/<%= entityApiUrl %>?sort=id,desc')
+            url $(consumer('/api/<%= entityApiUrl %>?sort=id,desc'), producer(execute('urlGetAll()')))
 			
         }
         response {
@@ -96,7 +96,7 @@ for (idx in fields) {
 			<%_ } else if (fieldType == 'LocalDate') { _%>
 				<%=fieldName %> :value(consumer([1970,01,01]), producer([1970,01,01]))<%=coma %>
 			<%_ } else if (fieldType == 'ZonedDateTime') { _%>
-				<%=fieldName %> : value(consumer('2017-01-01T00:00:00.000+01:00'), producer(regex('[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}[.]{0,1}[0-9]{0,3}[+][0-9]{2}:[0-9]{2}')))<%=coma %>
+				<%=fieldName %> : value(consumer('2017-01-01T00:00:00Z'), producer(regex(isoDateTime()+'Z')))<%=coma %>
 			<%_ } else if (fieldType == 'Boolean') { _%>
 				<%=fieldName %> : value(consumer(true), producer(regex(anyBoolean())))<%=coma %>
 			<%_ } else if ((fieldType == 'byte[]' || fieldType === 'ByteBuffer') && fieldTypeBlobContent != 'text') { _%>
@@ -133,7 +133,7 @@ for (idx in fields) {
 			<%_ } else if (fieldType == 'LocalDate') { _%>
 				<%=fieldName %> :value(consumer([1970,01,01]), producer([1970,01,01]))<%=coma %>
 			<%_ } else if (fieldType == 'ZonedDateTime') { _%>
-				<%=fieldName %> : value(consumer('2017-01-01T00:00:00.000+01:00'), producer(regex('[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}[.]{0,1}[0-9]{0,3}[+][0-9]{2}:[0-9]{2}')))<%=coma %>
+				<%=fieldName %> : value(consumer('2017-01-01T00:00:00Z'), producer(regex(isoDateTime()+'Z')))<%=coma %>
 			<%_ } else if (fieldType == 'Boolean') { _%>
 				<%=fieldName %> : value(consumer(true), producer(regex(anyBoolean())))<%=coma %>
 			<%_ } else if ((fieldType == 'byte[]' || fieldType === 'ByteBuffer') && fieldTypeBlobContent != 'text') { _%>
@@ -182,7 +182,7 @@ for (idx in fields) {
 			<%_ } else if (fieldType == 'LocalDate') { _%>
 				<%=fieldName %> :value(consumer([1970,01,01]), producer([1970,01,01]))<%=coma %>
 			<%_ } else if (fieldType == 'ZonedDateTime') { _%>
-				<%=fieldName %> : value(consumer(regex('[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}[.]{0,1}[0-9]{0,3}[+][0-9]{2}:[0-9]{2}')), producer('2017-01-01T00:00:00.000+01:00'))<%=coma %>
+				<%=fieldName %> : value(consumer(regex(isoDateTime()+'Z')))<%=coma %>
 			<%_ } else if (fieldType == 'Boolean') { _%>
 				<%=fieldName %> : value(consumer(regex(anyBoolean())), producer(true))<%=coma %>
 			<%_ } else if ((fieldType == 'byte[]' || fieldType === 'ByteBuffer') && fieldTypeBlobContent != 'text') { _%>
@@ -232,7 +232,7 @@ for (idx in fields) {
 			<%_ } else if (fieldType == 'LocalDate') { _%>
 				<%=fieldName %> :value(consumer([1970,01,01]), producer([1970,01,01]))<%=coma %>
 			<%_ } else if (fieldType == 'ZonedDateTime') { _%>
-				<%=fieldName %> : value(consumer(regex('[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}[.]{0,1}[0-9]{0,3}[+][0-9]{2}:[0-9]{2}')), producer('2017-01-01T00:00:00.000+01:00'))<%=coma %>
+				<%=fieldName %> : value(consumer(regex(isoDateTime()+'Z')))<%=coma %>
 			<%_ } else if (fieldType == 'Boolean') { _%>
 				<%=fieldName %> : value(consumer(regex(anyBoolean())), producer(true))<%=coma %>
 			<%_ } else if ((fieldType == 'byte[]' || fieldType === 'ByteBuffer') && fieldTypeBlobContent != 'text') { _%>
@@ -251,7 +251,7 @@ for (idx in fields) {
 		name("delete")
 		request {
 			method 'DELETE'
-			url $(consumer(regex('^/api/<%= entityApiUrl %>/[0-9]{0,10}')), producer(execute('generateUrl()')))
+			url $(consumer(regex('^/api/<%= entityApiUrl %>/[0-9]{0,10}')), producer(execute('urlGetAndDelete()')))
 		}
 		response {
 			status 200
